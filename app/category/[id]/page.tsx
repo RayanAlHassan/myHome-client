@@ -50,18 +50,20 @@
 //     </div>
 //   );
 // }
+"use client"; // ✅ add this
+
+import { useParams, useSearchParams } from "next/navigation";
 import { notFound } from "next/navigation";
 import { categories, subCategories, products, vendors, Product, Vendor, SubCategory } from "@/lib/data";
 import { CategoryHeader } from "@/components/category/category-header";
 import { ProductGrid } from "@/components/category/product-grid";
 
-interface CategoryPageProps {
-  params: { id: string };
-  searchParams: { subcategory?: string };
-}
+export default function CategoryPage() {
+  const { id } = useParams(); // works just like your EditEventPage
+  const searchParams = useSearchParams();
+  const subcategory = searchParams?.get("subcategory") || undefined;
 
-export default function CategoryPage({ params, searchParams }: CategoryPageProps) {
-  const category = categories.find((c) => c._id === params.id);
+  const category = categories.find((c) => c._id === id);
   if (!category) notFound();
 
   const categorySubCategories: SubCategory[] = subCategories.filter(
@@ -89,7 +91,7 @@ export default function CategoryPage({ params, searchParams }: CategoryPageProps
         products={categoryProducts}
         subcategories={categorySubCategories}
         vendors={categoryVendors}
-        initialSubcategory={searchParams.subcategory}
+        initialSubcategory={subcategory}
       />
     </div>
   );

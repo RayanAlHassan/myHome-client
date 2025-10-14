@@ -269,6 +269,7 @@ export type Product = {
   subServiceId?: string;
   vendorId: string;
   modelGlb?: string;
+  modelUrl?: string; // can be used as a unified AR model link
   modelUsdz?: string;
   createdAt: string;
   updatedAt: string;
@@ -388,6 +389,7 @@ export const products: Product[] = [
     image: "/modern-aluminum-door.jpg",
     subCategoryId: "subcat1",
     vendorId: "vendor1",
+    modelUrl: "/ar/modern-aluminum-door.glb",
     modelGlb: "/ar/modern-aluminum-door.glb",
     modelUsdz: "/ar/modern-aluminum-door.usdz",
     createdAt: new Date().toISOString(),
@@ -401,6 +403,8 @@ export const products: Product[] = [
     image: "/modern-aluminum-door.jpg",
     subCategoryId: "subcat1",
     vendorId: "vendor2",
+    modelUrl: "/ar/modern-aluminum-door.glb",
+
     modelGlb: "/ar/modern-aluminum-door.glb",
     modelUsdz: "/ar/modern-aluminum-door.usdz",
     createdAt: new Date().toISOString(),
@@ -414,6 +418,8 @@ export const products: Product[] = [
     image: "/upvc-sliding-window.jpg",
     subCategoryId: "subcat2",
     vendorId: "vendor1",
+    modelUrl: "/ar/upvc-sliding-window.glb",
+
     modelGlb: "/ar/upvc-sliding-window.glb",
     modelUsdz: "/ar/upvc-sliding-window.usdz",
     createdAt: new Date().toISOString(),
@@ -427,6 +433,8 @@ export const products: Product[] = [
     image: "/automatic-sliding-door.jpg",
     subCategoryId: "subcat4",
     vendorId: "vendor1",
+    modelUrl: "/ar/automatic-sliding-door.glb",
+
     modelGlb: "/ar/automatic-sliding-door.glb",
     modelUsdz: "/ar/automatic-sliding-door.usdz",
     createdAt: new Date().toISOString(),
@@ -440,6 +448,8 @@ export const products: Product[] = [
     image: "/solid-wood-interior-door.jpg",
     subCategoryId: "subcat5",
     vendorId: "vendor2",
+    modelUrl: "/ar/solid-wood-interior-door.glb",
+
     modelGlb: "/ar/solid-wood-interior-door.glb",
     modelUsdz: "/ar/solid-wood-interior-door.usdz",
     createdAt: new Date().toISOString(),
@@ -453,6 +463,8 @@ export const products: Product[] = [
     image: "/french-double-doors-interior.jpg",
     subCategoryId: "subcat6",
     vendorId: "vendor2",
+    modelUrl: "/ar/french-double-doors.glb",
+
     modelGlb: "/ar/french-double-doors.glb",
     modelUsdz: "/ar/french-double-doors.usdz",
     createdAt: new Date().toISOString(),
@@ -466,7 +478,9 @@ export const products: Product[] = [
     image: "/modern-sliding-interior-door.jpg",
     subCategoryId: "subcat7",
     vendorId: "vendor2",
+    modelUrl: "/ar/modern-sliding-door.glb",
     modelGlb: "/ar/modern-sliding-door.glb",
+
     modelUsdz: "/ar/modern-sliding-door.usdz",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -479,6 +493,8 @@ export const products: Product[] = [
     image: "/luxury-walk-in-closet.jpg",
     subCategoryId: "subcat9",
     vendorId: "vendor3",
+    modelUrl: "/ar/custom-walk-in-closet.glb",
+
     modelGlb: "/ar/custom-walk-in-closet.glb",
     modelUsdz: "/ar/custom-walk-in-closet.usdz",
     createdAt: new Date().toISOString(),
@@ -492,6 +508,8 @@ export const products: Product[] = [
     image: "/modern-kitchen.png",
     subCategoryId: "subcat10",
     vendorId: "vendor3",
+    modelUrl: "/ar/modern-kitchen.glb",
+
     modelGlb: "/ar/modern-kitchen.glb",
     modelUsdz: "/ar/modern-kitchen.usdz",
     createdAt: new Date().toISOString(),

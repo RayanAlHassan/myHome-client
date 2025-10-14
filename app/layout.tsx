@@ -4,7 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/footer";
-import "@/model-viewer.d.ts";
 
 const inter = Inter({
   subsets: ["latin"],

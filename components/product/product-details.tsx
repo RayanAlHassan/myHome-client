@@ -1,30 +1,39 @@
-// "use client"
 
-// import { useState } from "react"
-// import Image from "next/image"
-// import Link from "next/link"
-// import { Button } from "@/components/ui/button"
-// import { Camera, Mail, Phone } from "lucide-react"
-// import { products, subCategories, categories, Product } from "@/lib/data"
+// "use client";
+
+// import { useState } from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { Button } from "@/components/ui/button";
+// import { Camera, Mail, Phone } from "lucide-react";
+// import { products, subCategories, categories, Product } from "@/lib/data";
+// import { isDoorProduct } from "@/utils/ar"; // import helper
 
 // export function ProductDetails({ product }: { product: Product }) {
-//   const [selectedImage, setSelectedImage] = useState(0)
-//   const images = [product.image, product.image, product.image] // Dummy multiple images
+//   const [selectedImage, setSelectedImage] = useState(0);
+//   const images = [product.image, product.image, product.image]; // Dummy multiple images
 
-//   // Lookup subcategory and category
-//   const subCategory = subCategories.find(sub => sub._id === product.subCategoryId)
-//   const category = subCategory ? categories.find(cat => cat._id === subCategory.categoryId) : undefined
+//   const subCategory = subCategories.find(
+//     (sub) => sub._id === product.subCategoryId
+//   );
+//   const category = subCategory
+//     ? categories.find((cat) => cat._id === subCategory.categoryId)
+//     : undefined;
 
 //   return (
 //     <div className="container mx-auto px-4 py-12">
 //       {/* Breadcrumb */}
 //       <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
-//         <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
+//         <Link href="/" className="hover:text-foreground transition-colors">
+//           Home
+//         </Link>
 //         <span>/</span>
 //         {category && (
 //           <>
 //             <Link
-//               href={`/category/${category.title.toLowerCase().replace(/\s+/g, "-")}`}
+//               href={`/category/${category.title
+//                 .toLowerCase()
+//                 .replace(/\s+/g, "-")}`}
 //               className="hover:text-foreground transition-colors"
 //             >
 //               {category.title}
@@ -32,7 +41,9 @@
 //             <span>/</span>
 //           </>
 //         )}
-//         {subCategory && <span className="text-foreground">{subCategory.title}</span>}
+//         {subCategory && (
+//           <span className="text-foreground">{subCategory.title}</span>
+//         )}
 //       </div>
 
 //       <div className="grid lg:grid-cols-2 gap-12">
@@ -52,7 +63,9 @@
 //                 key={idx}
 //                 onClick={() => setSelectedImage(idx)}
 //                 className={`aspect-square relative overflow-hidden rounded-lg bg-muted border-2 transition-all ${
-//                   selectedImage === idx ? "border-primary" : "border-transparent hover:border-border"
+//                   selectedImage === idx
+//                     ? "border-primary"
+//                     : "border-transparent hover:border-border"
 //                 }`}
 //               >
 //                 <Image
@@ -69,19 +82,37 @@
 //         {/* Product Info */}
 //         <div>
 //           <div className="mb-4">
-//             {category && <span className="text-sm text-muted-foreground">{category.title}</span>}
+//             {category && (
+//               <span className="text-sm text-muted-foreground">
+//                 {category.title}
+//               </span>
+//             )}
 //             {subCategory && (
 //               <>
 //                 <span className="mx-2 text-muted-foreground">•</span>
-//                 <span className="text-sm text-muted-foreground">{subCategory.title}</span>
+//                 <span className="text-sm text-muted-foreground">
+//                   {subCategory.title}
+//                 </span>
 //               </>
 //             )}
 //           </div>
 
-//           <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-balance">{product.title}</h1>
+//           <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-balance">
+//             {product.title}
+//           </h1>
 
 //           {product.dimension && (
-//             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">{product.dimension}</p>
+//             <div className="flex items-center gap-2 mb-6">
+//               <Image
+//                 src="https://img.icons8.com/parakeet/48/surface.png"
+//                 alt="dimension icon"
+//                 width={24}
+//                 height={24}
+//               />
+//               <span className="text-sm text-muted-foreground">
+//                 {product.dimension}
+//               </span>
+//             </div>
 //           )}
 
 //           <div className="text-4xl font-bold mb-8">${product.price}</div>
@@ -95,16 +126,26 @@
 //               </Link>
 //             </Button>
 
-//             {product.modelGlb || product.modelUsdz ? (
-//               <Button size="lg" variant="outline" className="w-full bg-transparent" asChild>
-//                 <Link href="/ar-assistant">
-//                   <Camera className="mr-2 h-5 w-5" />
-//                   View in AR
-//                 </Link>
-//               </Button>
-//             ) : null}
+//             {isDoorProduct(product.subCategoryId) &&
+//               (product.modelGlb || product.modelUsdz) && (
+//                 <Button
+//                   size="lg"
+//                   variant="outline"
+//                   className="w-full bg-transparent"
+//                   asChild
+//                 >
+//                   <Link href={`/ar-assistant/${product._id}`}>
+//                     <Camera className="mr-2 h-5 w-5" />
+//                     View in AR
+//                   </Link>
+//                 </Button>
+//               )}
 
-//             <Button size="lg" variant="outline" className="w-full bg-transparent">
+//             <Button
+//               size="lg"
+//               variant="outline"
+//               className="w-full bg-transparent"
+//             >
 //               <Phone className="mr-2 h-5 w-5" />
 //               Call for Details
 //             </Button>
@@ -112,7 +153,7 @@
 //         </div>
 //       </div>
 //     </div>
-//   )
+//   );
 // }
 "use client";
 
@@ -120,13 +161,17 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Camera, Mail, Phone } from "lucide-react";
+import { Camera, Mail, Phone, Check } from "lucide-react";
 import { products, subCategories, categories, Product } from "@/lib/data";
-import { isDoorProduct } from "@/utils/ar"; // import helper
+import { isDoorProduct } from "@/utils/ar";
+import { ARViewer } from "@/components/ar/ar-viewer";
 
 export function ProductDetails({ product }: { product: Product }) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const images = [product.image, product.image, product.image]; // Dummy multiple images
+  const [showAR, setShowAR] = useState(false);
+
+  // Dummy multiple images for gallery
+  const images = [product.image, product.image, product.image];
 
   const subCategory = subCategories.find(
     (sub) => sub._id === product.subCategoryId
@@ -232,6 +277,42 @@ export function ProductDetails({ product }: { product: Product }) {
 
           <div className="text-4xl font-bold mb-8">${product.price}</div>
 
+          {/* Key Features */}
+          {/* {product.features?.length > 0 && (
+            <div className="mb-8">
+              <h3 className="font-semibold text-lg mb-4">Key Features</h3>
+              <ul className="space-y-3">
+                {product.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
+                    <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )} */}
+
+          {/* Specifications */}
+          {/* {product.specifications &&
+            Object.keys(product.specifications).length > 0 && (
+              <div className="mb-8">
+                <h3 className="font-semibold text-lg mb-4">Specifications</h3>
+                <div className="bg-muted rounded-lg p-6 space-y-3">
+                  {Object.entries(product.specifications).map(
+                    ([key, value]) => (
+                      <div
+                        key={key}
+                        className="flex justify-between items-center border-b border-border last:border-0 pb-3 last:pb-0"
+                      >
+                        <span className="text-muted-foreground">{key}</span>
+                        <span className="font-medium">{value}</span>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            )} */}
+
           {/* Actions */}
           <div className="space-y-4">
             <Button size="lg" className="w-full" asChild>
@@ -241,18 +322,17 @@ export function ProductDetails({ product }: { product: Product }) {
               </Link>
             </Button>
 
+            {/* AR Button - only show if the product has AR models */}
             {isDoorProduct(product.subCategoryId) &&
               (product.modelGlb || product.modelUsdz) && (
                 <Button
                   size="lg"
                   variant="outline"
                   className="w-full bg-transparent"
-                  asChild
+                  onClick={() => setShowAR(true)}
                 >
-                  <Link href={`/ar-assistant/${product._id}`}>
-                    <Camera className="mr-2 h-5 w-5" />
-                    View in AR
-                  </Link>
+                  <Camera className="mr-2 h-5 w-5" />
+                  View in AR
                 </Button>
               )}
 
@@ -267,6 +347,11 @@ export function ProductDetails({ product }: { product: Product }) {
           </div>
         </div>
       </div>
+
+      {/* AR Viewer Modal */}
+      {showAR && (
+        <ARViewer product={product} onClose={() => setShowAR(false)} />
+      )}
     </div>
   );
 }

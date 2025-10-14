@@ -1,22 +1,22 @@
-import { notFound } from "next/navigation"
-import { vendors, products, Vendor, Product } from "@/lib/data"
-import { ProductGrid } from "@/components/category/product-grid"
-import { Box } from "lucide-react" // optional icon
-import { subCategories } from "@/lib/data"
+"use client";
 
-interface VendorPageProps {
-  params: { id: string }
-}
+import { useParams } from "next/navigation";
+import { notFound } from "next/navigation";
+import { vendors, products, Vendor, Product, subCategories } from "@/lib/data";
+import { ProductGrid } from "@/components/category/product-grid";
+import { Box } from "lucide-react";
 
-export default function VendorPage({ params }: VendorPageProps) {
-  const vendor: Vendor | undefined = vendors.find(v => v._id === params.id)
-  if (!vendor) notFound()
+export default function VendorPage() {
+  const { id } = useParams(); // ✅ same as your EditEventPage
 
-  const vendorProducts: Product[] = products.filter(p => p.vendorId === vendor._id)
-  const vendorSubcategories = subCategories.filter(sub =>
-    vendorProducts.some(p => p.subCategoryId === sub._id)
-  )
-  
+  const vendor: Vendor | undefined = vendors.find((v) => v._id === id);
+  if (!vendor) notFound();
+
+  const vendorProducts: Product[] = products.filter((p) => p.vendorId === vendor._id);
+  const vendorSubcategories = subCategories.filter((sub) =>
+    vendorProducts.some((p) => p.subCategoryId === sub._id)
+  );
+
   return (
     <div className="min-h-screen container mx-auto px-4 py-12">
       {/* Vendor Info */}
@@ -33,19 +33,17 @@ export default function VendorPage({ params }: VendorPageProps) {
         <p className="text-muted-foreground max-w-xl mb-1">📍 {vendor.companyAddress}</p>
         <p className="text-muted-foreground max-w-xl mb-1">🕒 {vendor.workingHours}</p>
 
-        {/* Modern Product Count Badge */}
         <div className="mt-4 flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 text-white px-5 py-2 rounded-full shadow-lg font-semibold text-lg">
           <Box className="w-5 h-5" />
           {vendorProducts.length} {vendorProducts.length === 1 ? "Product" : "Products"}
         </div>
       </div>
 
-      {/* Vendor Products */}
       <ProductGrid
         products={vendorProducts}
         subcategories={vendorSubcategories}
-        vendors={[]} // hides vendor filter automatically
+        vendors={[]}
       />
     </div>
-  )
+  );
 }
