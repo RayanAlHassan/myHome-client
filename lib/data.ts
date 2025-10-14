@@ -143,8 +143,6 @@
 //   },
 // ];
 
-
-
 // // ================== VENDORS ==================
 // export const vendors = [
 //   {
@@ -173,7 +171,6 @@
 //   },
 // ];
 
-
 // export type Service = {
 //   id: string;
 //   name: string;
@@ -191,7 +188,6 @@
 //   rating: number;
 //   image: string;
 // };
-
 
 // export const testimonials: Testimonial[] = [
 //   {
@@ -350,9 +346,17 @@ export const vendors: Vendor[] = [
 
 // ================== CATEGORIES ==================
 export const categories: Category[] = [
-  { _id: "cat1", title: "Aluminum & UPVC", image: "/aluminum-doors-and-windows.jpg" },
+  {
+    _id: "cat1",
+    title: "Aluminum & UPVC",
+    image: "/aluminum-doors-and-windows.jpg",
+  },
   { _id: "cat2", title: "Interior Doors", image: "/interior-doors.jpg" },
-  { _id: "cat3", title: "Home Solutions", image: "/home-furniture-and-closets.jpg" },
+  {
+    _id: "cat3",
+    title: "Home Solutions",
+    image: "/home-furniture-and-closets.jpg",
+  },
   { _id: "cat4", title: "Services", image: "/home-services.png" },
 ];
 
@@ -389,7 +393,7 @@ export const products: Product[] = [
     image: "/modern-aluminum-door.jpg",
     subCategoryId: "subcat1",
     vendorId: "vendor1",
-    modelUrl: "/ar/modern-aluminum-door.glb",
+    modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
     modelGlb: "/ar/modern-aluminum-door.glb",
     modelUsdz: "/ar/modern-aluminum-door.usdz",
     createdAt: new Date().toISOString(),
@@ -403,7 +407,7 @@ export const products: Product[] = [
     image: "/modern-aluminum-door.jpg",
     subCategoryId: "subcat1",
     vendorId: "vendor2",
-    modelUrl: "/ar/modern-aluminum-door.glb",
+    modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
 
     modelGlb: "/ar/modern-aluminum-door.glb",
     modelUsdz: "/ar/modern-aluminum-door.usdz",
@@ -418,8 +422,7 @@ export const products: Product[] = [
     image: "/upvc-sliding-window.jpg",
     subCategoryId: "subcat2",
     vendorId: "vendor1",
-    modelUrl: "/ar/upvc-sliding-window.glb",
-
+    modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
     modelGlb: "/ar/upvc-sliding-window.glb",
     modelUsdz: "/ar/upvc-sliding-window.usdz",
     createdAt: new Date().toISOString(),
@@ -433,8 +436,7 @@ export const products: Product[] = [
     image: "/automatic-sliding-door.jpg",
     subCategoryId: "subcat4",
     vendorId: "vendor1",
-    modelUrl: "/ar/automatic-sliding-door.glb",
-
+    modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
     modelGlb: "/ar/automatic-sliding-door.glb",
     modelUsdz: "/ar/automatic-sliding-door.usdz",
     createdAt: new Date().toISOString(),
@@ -448,8 +450,7 @@ export const products: Product[] = [
     image: "/solid-wood-interior-door.jpg",
     subCategoryId: "subcat5",
     vendorId: "vendor2",
-    modelUrl: "/ar/solid-wood-interior-door.glb",
-
+    modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
     modelGlb: "/ar/solid-wood-interior-door.glb",
     modelUsdz: "/ar/solid-wood-interior-door.usdz",
     createdAt: new Date().toISOString(),
@@ -463,8 +464,7 @@ export const products: Product[] = [
     image: "/french-double-doors-interior.jpg",
     subCategoryId: "subcat6",
     vendorId: "vendor2",
-    modelUrl: "/ar/french-double-doors.glb",
-
+    modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
     modelGlb: "/ar/french-double-doors.glb",
     modelUsdz: "/ar/french-double-doors.usdz",
     createdAt: new Date().toISOString(),
@@ -493,8 +493,7 @@ export const products: Product[] = [
     image: "/luxury-walk-in-closet.jpg",
     subCategoryId: "subcat9",
     vendorId: "vendor3",
-    modelUrl: "/ar/custom-walk-in-closet.glb",
-
+    modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
     modelGlb: "/ar/custom-walk-in-closet.glb",
     modelUsdz: "/ar/custom-walk-in-closet.usdz",
     createdAt: new Date().toISOString(),
@@ -508,8 +507,7 @@ export const products: Product[] = [
     image: "/modern-kitchen.png",
     subCategoryId: "subcat10",
     vendorId: "vendor3",
-    modelUrl: "/ar/modern-kitchen.glb",
-
+    modelUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
     modelGlb: "/ar/modern-kitchen.glb",
     modelUsdz: "/ar/modern-kitchen.usdz",
     createdAt: new Date().toISOString(),
