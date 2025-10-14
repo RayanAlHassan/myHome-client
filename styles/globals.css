@@ -1,0 +1,157 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* === Base (Light Mode) === */
+  --background: rgb(255, 247, 235); /* soft light orange background */
+  --foreground: rgb(60, 35, 0); /* deep brown-orange text */
+
+  --card: rgb(255, 252, 245);
+  --card-foreground: rgb(60, 35, 0);
+
+  --popover: rgb(255, 252, 245);
+  --popover-foreground: rgb(60, 35, 0);
+
+  /* === ORANGE CORE === */
+  --primary: rgb(255, 120, 0); /* main vivid orange */
+  --primary-foreground: rgb(255, 255, 255);
+
+  --secondary: rgb(255, 160, 50); /* warm lighter orange */
+  --secondary-foreground: rgb(60, 35, 0);
+
+  --accent: rgb(255, 180, 80); /* accent orange tone */
+  --accent-foreground: rgb(60, 35, 0);
+
+  --muted: rgb(255, 235, 210); /* pale orange background */
+  --muted-foreground: rgb(120, 70, 20);
+
+  --destructive: rgb(210, 60, 0); /* deep burnt orange */
+  --destructive-foreground: rgb(255, 255, 255);
+
+  --border: rgb(255, 210, 150);
+  --input: rgb(255, 210, 150);
+  --ring: rgb(255, 140, 0);
+
+  /* === ORANGE CHART TONES === */
+  --chart-1: rgb(255, 130, 0);
+  --chart-2: rgb(255, 165, 60);
+  --chart-3: rgb(255, 190, 100);
+  --chart-4: rgb(255, 210, 140);
+  --chart-5: rgb(255, 100, 0);
+
+  --radius: 0.625rem;
+
+  /* === Sidebar === */
+  --sidebar: rgb(255, 250, 240);
+  --sidebar-foreground: rgb(60, 35, 0);
+  --sidebar-primary: rgb(255, 120, 0);
+  --sidebar-primary-foreground: rgb(255, 255, 255);
+  --sidebar-accent: rgb(255, 170, 60);
+  --sidebar-accent-foreground: rgb(60, 35, 0);
+  --sidebar-border: rgb(255, 200, 130);
+  --sidebar-ring: rgb(255, 140, 0);
+}
+
+/* === DARK MODE === */
+.dark {
+  --background: rgb(25, 15, 0); /* dark brownish orange */
+  --foreground: rgb(255, 245, 230);
+
+  --card: rgb(35, 20, 0);
+  --card-foreground: rgb(255, 245, 230);
+
+  --popover: rgb(35, 20, 0);
+  --popover-foreground: rgb(255, 245, 230);
+
+  /* === ORANGE CORE === */
+  --primary: rgb(255, 130, 10);
+  --primary-foreground: rgb(25, 15, 0);
+
+  --secondary: rgb(255, 160, 60);
+  --secondary-foreground: rgb(25, 15, 0);
+
+  --accent: rgb(255, 180, 90);
+  --accent-foreground: rgb(25, 15, 0);
+
+  --muted: rgb(50, 30, 10);
+  --muted-foreground: rgb(255, 200, 150);
+
+  --destructive: rgb(255, 90, 30);
+  --destructive-foreground: rgb(25, 15, 0);
+
+  --border: rgb(80, 45, 15);
+  --input: rgb(80, 45, 15);
+  --ring: rgb(255, 150, 40);
+
+  /* === ORANGE CHART TONES === */
+  --chart-1: rgb(255, 120, 0);
+  --chart-2: rgb(255, 150, 40);
+  --chart-3: rgb(255, 180, 80);
+  --chart-4: rgb(255, 100, 0);
+  --chart-5: rgb(255, 200, 100);
+
+  /* === Sidebar === */
+  --sidebar: rgb(30, 18, 0);
+  --sidebar-foreground: rgb(255, 245, 230);
+  --sidebar-primary: rgb(255, 130, 10);
+  --sidebar-primary-foreground: rgb(25, 15, 0);
+  --sidebar-accent: rgb(255, 160, 50);
+  --sidebar-accent-foreground: rgb(25, 15, 0);
+  --sidebar-border: rgb(80, 45, 15);
+  --sidebar-ring: rgb(255, 150, 40);
+}
+
+/* === Tailwind Theme Mapping === */
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* === Base Layer === */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
