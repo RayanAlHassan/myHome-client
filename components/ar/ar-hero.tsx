@@ -1,6 +1,8 @@
-import { Button } from "@/components/ui/button"
-import { Camera, Smartphone } from "lucide-react"
-import Link from "next/link"
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Camera, Smartphone } from "lucide-react";
+import Link from "next/link";
 
 export function ARHero() {
   return (
@@ -17,14 +19,22 @@ export function ARHero() {
           </h1>
 
           <p className="text-lg md:text-xl text-muted-foreground mb-12 text-pretty leading-relaxed">
-            Use your smartphone camera to visualize doors, furniture, and decor in your actual space. Make confident
-            decisions with our AR Assistant technology.
+            Use your smartphone camera to visualize doors, furniture, and decor
+            in your actual space. Make confident decisions with our AR Assistant
+            technology.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg">
+            <Button
+              size="lg"
+              onClick={() => {
+                document.getElementById("explore-ar")?.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
+            >
               <Smartphone className="mr-2 h-5 w-5" />
-              Launch AR Assistant
+              Explore AR Assistant
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link href="#how-it-works">Learn How It Works</Link>
@@ -33,5 +43,5 @@ export function ARHero() {
         </div>
       </div>
     </section>
-  )
+  );
 }

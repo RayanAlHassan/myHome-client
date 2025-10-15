@@ -80,7 +80,7 @@ export default function CategoryPage() {
 
   return (
     <div className="min-h-screen">
-      <CategoryHeader
+      {/* <CategoryHeader
         category={{
           _id: category._id,
           title: category.title,
@@ -92,7 +92,7 @@ export default function CategoryPage() {
         subcategories={categorySubCategories}
         vendors={categoryVendors}
         initialSubcategory={subcategory}
-      />
+      /> */}
     </div>
   );
 }

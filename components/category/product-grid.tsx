@@ -593,7 +593,8 @@ export function ProductGrid({
             return (
               <Link
                 key={product._id}
-                href={`/product/${product._id}`}
+                href={``}
+                // href={`/product/${product._id}`}
                 className="group bg-card rounded-xl border border-border overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col md:flex-row"
               >
                 <div className="md:w-64 aspect-square relative bg-muted overflow-hidden flex-shrink-0">

@@ -17,7 +17,7 @@ export function ARDemo() {
   const arEnabledProducts = products.filter((p) => p.modelUrl);
 
   return (
-    <section className="py-16 bg-muted/30">
+    <section className="py-16 bg-muted/30" id="explore-ar">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -76,7 +76,9 @@ export function ARDemo() {
                         View in AR
                       </Button>
                       <Button size="sm" variant="outline" asChild>
-                        <Link href={`/product/${product._id}`}> {/* was product.id */}
+                        {/* <Link href={`/product/${product._id}`}> was product.id */}
+                        <Link href={``}> 
+
                           <ArrowRight className="h-4 w-4" />
                         </Link>
                       </Button>

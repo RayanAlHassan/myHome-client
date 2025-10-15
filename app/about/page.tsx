@@ -7,11 +7,11 @@ import { AboutStats } from "@/components/about/about-stats"
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
-      <AboutHero />
+      {/* <AboutHero />
       <AboutStats />
       <AboutMission />
       <AboutValues />
-      <AboutTeam />
+      <AboutTeam /> */}
     </div>
   )
 }

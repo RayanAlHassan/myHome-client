@@ -2,7 +2,9 @@
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
-
+html {
+  scroll-behavior: smooth;
+}
 :root {
   /* === Base (Light Mode) === */
   --background: rgb(255, 247, 235); /* soft light orange background */

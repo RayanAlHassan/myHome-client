@@ -7,7 +7,7 @@ export default function ARAssistantPage() {
   return (
     <div className="min-h-screen">
       <ARHero />
-      <ARFeatures />
+      {/* <ARFeatures /> */}
       <ARHowItWorks />
       <ARDemo />
     </div>

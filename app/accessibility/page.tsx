@@ -6,10 +6,10 @@ import { AccessibilityFAQ } from "@/components/accessibility/accessibility-faq"
 export default function AccessibilityPage() {
   return (
     <div className="min-h-screen">
-      <AccessibilityHero />
+      {/* <AccessibilityHero />
       <AccessibilityControls />
       <AccessibilityFeatures />
-      <AccessibilityFAQ />
+      <AccessibilityFAQ /> */}
     </div>
   )
 }
