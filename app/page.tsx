@@ -10,12 +10,12 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       <Hero />
-      {/* <FeaturedCategories /> */}
+      <FeaturedCategories />
       {/* <FeaturedProducts /> */}
       {/* <AccessibilityPromo /> */}
-      {/* <ARAssistantPromo /> */}
+      <ARAssistantPromo />
       {/* <Testimonials /> */}
-      {/* <Newsletter /> */}
+      <Newsletter />
     </div>
   )
 }

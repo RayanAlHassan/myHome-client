@@ -296,6 +296,7 @@
 export type Product = {
   _id: string;
   title: string;
+  description:string;
   dimension?: string;
   price: number;
   image?: string;
@@ -311,6 +312,7 @@ export type Product = {
 
 export type Vendor = {
   _id: string;
+  email:string;
   companyName: string;
   companyPhone: string;
   companyAddress: string;
@@ -347,17 +349,39 @@ export type Service = {
 
 export type Testimonial = {
   _id: string;
-  name: string;
-  role: string;
+  name: string;       // customer name
   content: string;
   rating: number;
-  image: string;
+  vendorId: string;   // reference to vendor
 };
+export type UserRole = "customer" | "vendore";
+
+export type User = {
+  _id: string;
+  email: string;
+  password: string;
+  role: UserRole;
+};
+export const users: User[] = [
+  {
+    _id: "user1",
+    email: "rayanalhassan2000@gmail.com",
+    password: "rayan", // customer login
+    role: "customer",
+  },
+  {
+    _id: "vendor1user",
+    email: "rayan@leaptech.com",
+    password: "rayan",
+    role: "vendore",
+  },
+];
 
 // ================== VENDORS ==================
 export const vendors: Vendor[] = [
   {
     _id: "vendor1",
+    email:"rayan@leaptech.com",
     companyName: "Modern Build Co.",
     companyPhone: "+965 2222 3344",
     companyAddress: "Shuwaikh Industrial Area, Kuwait City",
@@ -366,6 +390,8 @@ export const vendors: Vendor[] = [
   },
   {
     _id: "vendor2",
+    email:"rayan@leaptech.com",
+
     companyName: "Interior Craft",
     companyPhone: "+965 3333 4455",
     companyAddress: "Al Rai, Kuwait City",
@@ -374,6 +400,8 @@ export const vendors: Vendor[] = [
   },
   {
     _id: "vendor3",
+    email:"rayan@leaptech.com",
+
     companyName: "HomeStyle Furnishings",
     companyPhone: "+965 5555 6677",
     companyAddress: "Salmiya, Block 10, Kuwait",
@@ -385,13 +413,13 @@ export const vendors: Vendor[] = [
 // ================== CATEGORIES ==================
 export const categories: Category[] = [
   { _id: "cat4", title: "Services", image: "/home-services.png" },
-  { _id: "cat5", title: "Out / In Door", image: "/image5.jpg" },
+  { _id: "cat5", title: "Out / In Door", image: "/outInDoor.jpg" },
   {
     _id: "cat3",
     title: "Home Solutions",
     image: "/home-furniture-and-closets.jpg",
   },
-  { _id: "cat7", title: "Home Moving", image: "/image7.jpg" },
+  { _id: "cat7", title: "Home Moving", image: "/homeMoving.jpg" },
   
   {
     _id: "cat1",
@@ -400,8 +428,8 @@ export const categories: Category[] = [
   },
   { _id: "cat2", title: "Interior Doors", image: "/interior-doors.jpg" },
 
-  { _id: "cat8", title: "Furniture", image: "/image8.jpg" },
-  { _id: "cat6", title: "Accessories", image: "/image6.jpg" },
+  { _id: "cat8", title: "Furniture", image: "/furniture.jpg" },
+  { _id: "cat6", title: "Accessories", image: "/door-handles.jpg" },
 
 ];
 
@@ -452,6 +480,9 @@ export const subServices: SubService[] = [
 export const products: Product[] = [
   {
     _id: "prod1",
+    description:
+    "A sleek, durable aluminum door designed for modern homes. Offers excellent insulation, corrosion resistance, and a smooth matte finish.",
+
     title: "Modern Aluminum Door",
     dimension: "90cm x 210cm",
     price: 450,
@@ -467,6 +498,9 @@ export const products: Product[] = [
   {
     _id: "prod9",
     title: "Modern Aluminum Door",
+    description:
+    "Contemporary aluminum door with enhanced soundproofing and a minimalistic design. Ideal for both residential and commercial spaces.",
+ 
     dimension: "90cm x 210cm",
     price: 350,
     image: "/modern-aluminum-door.jpg",
@@ -482,6 +516,9 @@ export const products: Product[] = [
   {
     _id: "prod2",
     title: "UPVC Sliding Window",
+    description:
+    "High-quality UPVC sliding window with double-glazed glass for energy efficiency and noise reduction. Easy to clean and long-lasting.",
+ 
     dimension: "120cm x 150cm",
     price: 320,
     image: "/upvc-sliding-window.jpg",
@@ -496,7 +533,9 @@ export const products: Product[] = [
   {
     _id: "prod3",
     title: "Automatic Sliding Door",
-    dimension: "180cm x 220cm",
+    description:
+    "Sensor-operated sliding door system with smooth and quiet motion. Perfect for offices, showrooms, and modern home entrances.",
+  dimension: "180cm x 220cm",
     price: 1200,
     image: "/automatic-sliding-door.jpg",
     subCategoryId: "subcat4",
@@ -510,6 +549,9 @@ export const products: Product[] = [
   {
     _id: "prod4",
     title: "Solid Wood Interior Door",
+    description:
+    "Elegant solid wood interior door crafted from premium oak. Offers natural warmth, durability, and a timeless aesthetic for any room.",
+  
     dimension: "80cm x 200cm",
     price: 280,
     image: "/solid-wood-interior-door.jpg",
@@ -526,7 +568,9 @@ export const products: Product[] = [
   {
     _id: "prod5",
     title: "Double French Doors",
-    dimension: "160cm x 210cm",
+    description:
+    "Stylish double French doors with glass panels that bring natural light indoors. Ideal for living areas and elegant interior transitions.",
+  dimension: "160cm x 210cm",
     price: 520,
     image: "/french-double-doors-interior.jpg",
     subCategoryId: "subcat6",
@@ -540,6 +584,9 @@ export const products: Product[] = [
   {
     _id: "prod6",
     title: "Modern Sliding Door",
+    description:
+    "Space-saving sliding door with a contemporary design and smooth track mechanism. Perfect for modern apartments and compact interiors.",
+  
     dimension: "90cm x 210cm",
     price: 380,
     image: "/modern-sliding-interior-door.jpg",
@@ -555,6 +602,9 @@ export const products: Product[] = [
   {
     _id: "prod7",
     title: "Custom Walk-in Closet",
+    description:
+    "Luxurious walk-in closet with customizable shelves and drawers. Designed to optimize space while adding a touch of sophistication.",
+ 
     dimension: "Custom",
     price: 2500,
     image: "/luxury-walk-in-closet.jpg",
@@ -569,6 +619,9 @@ export const products: Product[] = [
   {
     _id: "prod8",
     title: "Modern Kitchen Set",
+    description:
+    "Fully customizable modern kitchen set featuring premium finishes, integrated lighting, and ergonomic design for everyday convenience.",
+ 
     dimension: "Custom",
     price: 5500,
     image: "/modern-kitchen.png",
@@ -583,32 +636,30 @@ export const products: Product[] = [
 ];
 
 // ================== TESTIMONIALS ==================
+// Mock testimonials data
 export const testimonials: Testimonial[] = [
   {
     _id: "t1",
     name: "Sarah Al-Mansour",
-    role: "Homeowner",
     content:
       "The quality of their doors and installation service exceeded my expectations. Highly professional team!",
     rating: 5,
-    image: "/professional-woman-portrait.png",
+    vendorId: "vendor1",
   },
   {
     _id: "t2",
     name: "Ahmed Hassan",
-    role: "Interior Designer",
     content:
       "I always recommend myHome to my clients. Their product range and customization options are outstanding.",
     rating: 5,
-    image: "/professional-man-portrait.png",
+    vendorId: "vendor2",
   },
   {
     _id: "t3",
     name: "Fatima Al-Sabah",
-    role: "Business Owner",
     content:
       "The automatic doors they installed at our office are perfect. Great quality and excellent after-sales support.",
     rating: 5,
-    image: "/confident-businesswoman.png",
+    vendorId: "vendor1",
   },
 ];

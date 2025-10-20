@@ -2,9 +2,17 @@
 
 import { useParams } from "next/navigation";
 import { notFound } from "next/navigation";
-import { vendors, products, Vendor, Product, subCategories } from "@/lib/data";
+import {
+  vendors,
+  products,
+  Vendor,
+  Product,
+  subCategories,
+  testimonials,
+} from "@/lib/data";
 import { ProductGrid } from "@/components/category/product-grid";
 import { Box } from "lucide-react";
+import { Testimonials } from "@/components/home/testimonials";
 
 export default function VendorPage() {
   const { id } = useParams(); // ✅ same as your EditEventPage
@@ -12,9 +20,14 @@ export default function VendorPage() {
   const vendor: Vendor | undefined = vendors.find((v) => v._id === id);
   if (!vendor) notFound();
 
-  const vendorProducts: Product[] = products.filter((p) => p.vendorId === vendor._id);
+  const vendorProducts: Product[] = products.filter(
+    (p) => p.vendorId === vendor._id
+  );
   const vendorSubcategories = subCategories.filter((sub) =>
     vendorProducts.some((p) => p.subCategoryId === sub._id)
+  );
+  const vendorTestimonials = testimonials.filter(
+    (t) => t.vendorId === vendor._id
   );
 
   return (
@@ -28,22 +41,35 @@ export default function VendorPage() {
             className="object-cover w-full h-full"
           />
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-2">{vendor.companyName}</h1>
-        <p className="text-muted-foreground max-w-xl mb-1">📞 {vendor.companyPhone}</p>
-        <p className="text-muted-foreground max-w-xl mb-1">📍 {vendor.companyAddress}</p>
-        <p className="text-muted-foreground max-w-xl mb-1">🕒 {vendor.workingHours}</p>
+        <h1 className="text-4xl md:text-5xl font-bold mb-2">
+          {vendor.companyName}
+        </h1>
+        <p className="text-muted-foreground max-w-xl mb-1">
+          📞 {vendor.companyPhone}
+        </p>
+        <p className="text-muted-foreground max-w-xl mb-1">
+          📍 {vendor.companyAddress}
+        </p>
+        <p className="text-muted-foreground max-w-xl mb-1">
+          🕒 {vendor.workingHours}
+        </p>
 
         <div className="mt-4 flex items-center gap-2 bg-gradient-to-r from-orange-400 to-orange-600 text-white px-5 py-2 rounded-full shadow-lg font-semibold text-lg">
           <Box className="w-5 h-5" />
-          {vendorProducts.length} {vendorProducts.length === 1 ? "Product" : "Products"}
+          {vendorProducts.length}{" "}
+          {vendorProducts.length === 1 ? "Product" : "Products"}
         </div>
       </div>
-
+      {/* Vendor Products */}
       <ProductGrid
         products={vendorProducts}
         subcategories={vendorSubcategories}
         vendors={[]}
       />
+      {/* Vendor Testimonials */}
+      {vendorTestimonials.length > 0 && (
+        <Testimonials testimonials={vendorTestimonials} />
+      )}{" "}
     </div>
   );
 }

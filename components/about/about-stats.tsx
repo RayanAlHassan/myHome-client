@@ -1,8 +1,8 @@
 const stats = [
-  { value: "10+", label: "Years of Excellence" },
-  { value: "5000+", label: "Happy Customers" },
-  { value: "15000+", label: "Projects Completed" },
-  { value: "50+", label: "Expert Team Members" },
+  { value: "1+", label: "Years of Excellence" },
+  { value: "300+", label: "Happy Customers" },
+  { value: "1000+", label: "Projects Completed" },
+  { value: "10+", label: "Expert Team Members" },
 ]
 
 export function AboutStats() {

@@ -18,7 +18,7 @@ export default function ProductPage() {
 
   return (
     <div className="min-h-screen">
-      {/* <ProductDetails product={product} /> */}
+      <ProductDetails product={product} />
       {/* {relatedProducts.length > 0 && <RelatedProducts products={relatedProducts} />} */}
     </div>
   );
