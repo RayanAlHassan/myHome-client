@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { DataGrid, GridColDef, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridColDef,GridRenderCellParams, GridActionsCellItem } from "@mui/x-data-grid";
 import { Delete, Edit } from "@mui/icons-material";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import { Switch } from "@mui/material";
@@ -10,10 +10,12 @@ import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
-interface CategoryRow {
+interface SubCategoryRow {
   id: string;
   title: string;
   image?: string;
+  categoryTitle: string; // <-- just store the title
+  canDesign: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -24,7 +26,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   fontFamily: "var(--font-sans)",
   backgroundColor: "var(--background)",
   color: "var(--foreground)",
-
   "& .MuiDataGrid-columnHeaders": {
     backgroundColor: "var(--background)",
     color: "var(--foreground)",
@@ -64,13 +65,18 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   },
 }));
 
-export default function CategoriesPage() {
+export default function SubCategoriesPage() {
   const { user, loggedIn, loading } = useAuth();
-  const [rows, setRows] = useState<CategoryRow[]>([]);
+  const [rows, setRows] = useState<SubCategoryRow[]>([]);
   const [pageLoading, setPageLoading] = useState(true);
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
+  const [categories, setCategories] = useState<{ _id: string; title: string }[]>([]);
 
+  useEffect(() => {
+    axios.get(`${BASE_URL}/categories`).then(res => setCategories(res.data));
+  }, []);
+  
   const hasAccess = user ? user.role === "admin" : false;
 
   useEffect(() => {
@@ -79,38 +85,60 @@ export default function CategoriesPage() {
       return;
     }
 
-    const fetchCategories = async () => {
+    const fetchSubCategories = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/categories`, { withCredentials: true });
+        const res = await axios.get(`${BASE_URL}/subcategories`, {
+          withCredentials: true,
+        });
         setRows(
-          res.data.map((c: any) => ({
-            id: c._id,
-            title: c.title,
-            image: c.image,
-            createdAt: c.createdAt,
-            updatedAt: c.updatedAt,
+          res.data.map((sc: any) => ({
+            id: sc._id,
+            title: sc.title,
+            image: sc.image,
+            categoryTitle: sc.categoryId?.title || "N/A",
+            canDesign: sc.canDesign,
+            createdAt: sc.createdAt,
+            updatedAt: sc.updatedAt,
           }))
         );
+        
       } catch (err) {
-        console.error("Error fetching categories", err);
+        console.error("Error fetching subcategories", err);
       } finally {
         setPageLoading(false);
       }
     };
 
-    fetchCategories();
+    fetchSubCategories();
   }, [loggedIn, user]);
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`${BASE_URL}/categories/${id}`, { withCredentials: true });
+      await axios.delete(`${BASE_URL}/subcategories/${id}`, {
+        withCredentials: true,
+      });
       setRows((prev) => prev.filter((row) => row.id !== id));
     } catch (err) {
-      console.error("Error deleting category", err);
+      console.error("Error deleting subcategory", err);
     }
   };
 
-  const columns: GridColDef[] = [
+  const toggleCanDesign = async (id: string, value: boolean) => {
+    try {
+      await axios.put(
+        `${BASE_URL}/subcategories/${id}`,
+        { canDesign: value },
+        { withCredentials: true }
+      );
+      setRows((prev) =>
+        prev.map((row) => (row.id === id ? { ...row, canDesign: value } : row))
+      );
+    } catch (err) {
+      console.error("Error updating canDesign", err);
+    }
+  };
+
+  const columns: GridColDef<SubCategoryRow>[] = [
     { field: "title", headerName: "Title", flex: 1, editable: hasAccess },
     {
       field: "image",
@@ -127,14 +155,34 @@ export default function CategoriesPage() {
           <span>No Image</span>
         ),
     },
-    { field: "createdAt", headerName: "Created At", flex: 1, renderCell: (params) =>
-    params.row.createdAt
-      ? new Date(params.row.createdAt).toLocaleString()
-      : "N/A", },
-    { field: "updatedAt", headerName: "Updated At", flex: 1 , renderCell: (params) =>
-    params.row.createdAt
-      ? new Date(params.row.createdAt).toLocaleString()
-      : "N/A",},
+    {
+      field: "canDesign",
+      headerName: "Can Design",
+      flex: 1,
+      renderCell: (params) => (
+        <Switch
+          checked={params.value}
+          onChange={(e) =>
+            toggleCanDesign(params.id as string, e.target.checked)
+          }
+          disabled={!hasAccess}
+        />
+      ),
+    },
+    {
+      field: "categoryTitle",
+      headerName: "Category",
+      flex: 1,
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated At",
+      flex: 1,
+      renderCell: (params) =>
+        params.row.updatedAt
+          ? new Date(params.row.updatedAt).toLocaleString()
+          : "N/A",
+    },
     {
       field: "actions",
       headerName: "Actions",
@@ -146,7 +194,9 @@ export default function CategoriesPage() {
                 key="edit"
                 icon={<Edit />}
                 label="Edit"
-                onClick={() => router.push(`/dashboard/categories/${params.id}`)}
+                onClick={() =>
+                  router.push(`/dashboard/subcategories/${params.id}`)
+                }
               />,
               <GridActionsCellItem
                 key="delete"
@@ -158,6 +208,8 @@ export default function CategoriesPage() {
           : [],
     },
   ];
+  
+  
 
   if (loading || pageLoading) return <p>Loading...</p>;
 
@@ -172,31 +224,39 @@ export default function CategoriesPage() {
   return (
     <section className="min-h-screen bg-background text-foreground py-10 px-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-heading font-bold">Categories Management</h1>
+        <h1 className="text-3xl font-heading font-bold">
+          Subcategories Management
+        </h1>
         {hasAccess && (
-          <Link href="/dashboard/categories/new">
+          <Link href="/dashboard/subcategories/new">
             <button className="bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90 transition">
-              Add Category
+              Add Subcategory
             </button>
           </Link>
         )}
       </div>
 
       <ThemeProvider
-        theme={createTheme({
-          palette: {
-            mode: typeof window !== "undefined" && document.documentElement.classList.contains("dark") ? "dark" : "light",
-          },
-        })}
-      >
-        <StyledDataGrid
-          rows={rows}
-          columns={columns}
-          loading={pageLoading}
-          pageSizeOptions={[5, 10, 20]}
-          initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
-          disableRowSelectionOnClick
-        />
+  theme={createTheme({
+    palette: {
+      mode:
+        typeof window !== "undefined" &&
+        document.documentElement.classList.contains("dark")
+          ? "dark"
+          : "light",
+    },
+  })}
+>
+<StyledDataGrid
+  rows={rows}
+  columns={columns as GridColDef[]}
+  loading={pageLoading}
+  pageSizeOptions={[5, 10, 20]}
+  initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
+  disableRowSelectionOnClick
+/>
+
+
       </ThemeProvider>
     </section>
   );

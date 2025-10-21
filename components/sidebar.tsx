@@ -1,23 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, LogOut } from "lucide-react";
+import { Menu, LogOut ,Moon, Sun,} from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { Toggle } from "@/components/ui/toggle"; // your Radix Toggle wrapper
+import { useTheme } from "./theme-provider";
+import { Button } from "./ui/button";
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { loggedIn, logout, user } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const menuItems = [
-    { label: "Dashboard", icon: "🏠", href: "/dashboard" },
+    // { label: "Dashboard", icon: "🏠", href: "/dashboard" },
     { label: "Users", icon: "👤", href: "/dashboard/users" },
     { label: "categories", icon: "📁", href: "/dashboard/categories" },
     {
-      label: "Project Updates",
+      label: "Subcategories",
       icon: "📝",
-      href: "/dashboard/project-updates",
+      href: "/dashboard/subcategories",
     },
     { label: "Events", icon: "📅", href: "/dashboard/events" },
     { label: "Sponsors", icon: "💰", href: "/dashboard/sponsors" },
@@ -33,8 +35,13 @@ export default function Sidebar() {
     >
       {/* Collapse Button */}
       <div className="flex justify-end p-2 border-b border-border">
-        <Toggle />
-        <button
+      <Button variant="ghost" size="icon" onClick={toggleTheme}>
+              {theme === "light" ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
+              )}
+            </Button>        <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="p-2 rounded hover:bg-muted transition"
         >
