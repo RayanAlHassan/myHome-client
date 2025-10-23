@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -17,7 +16,7 @@ interface UserRow {
   email: string;
   role: string;
   isActive: boolean;
-  phone:string;
+  phone: string;
 }
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -26,7 +25,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   fontFamily: "var(--font-sans)",
   backgroundColor: "var(--background)",
   color: "var(--foreground)",
-
   "& .MuiDataGrid-columnHeaders": {
     backgroundColor: "var(--background)",
     color: "var(--foreground)",
@@ -73,38 +71,41 @@ export default function UsersPage() {
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
   const router = useRouter();
 
-  const hasAccess = user
-    ? user.role === "admin" 
-    : false;
+  const hasAccess = user?.role === "admin";
 
+  // Redirect unauthorized users
   useEffect(() => {
-    if (!loggedIn || !user || !hasAccess) {
-      setPageLoading(false);
-      return;
+    if (!loading && (!loggedIn || !hasAccess)) {
+      router.replace("/dashboard"); // go back to dashboard if not admin
     }
+  }, [loading, loggedIn, hasAccess, router]);
 
-    const fetchUsers = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/user`, { withCredentials: true });
-        setRows(
-          res.data.map((u: any) => ({
-            id: u._id,
-            name: u.name,
-            email: u.email,
-            role: u.role,
-            isActive: u.isActive,
-            phone:u.phone,
-          }))
-        );
-      } catch (err) {
-        console.error("Error fetching users", err);
-      } finally {
-        setPageLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [loggedIn, user]);
+  // Fetch users only if admin
+  useEffect(() => {
+    if (!loading && loggedIn && hasAccess) {
+      const fetchUsers = async () => {
+        setPageLoading(true);
+        try {
+          const res = await axios.get(`${BASE_URL}/user`, { withCredentials: true });
+          setRows(
+            res.data.map((u: any) => ({
+              id: u._id,
+              name: u.name,
+              email: u.email,
+              role: u.role,
+              isActive: u.isActive,
+              phone: u.phone,
+            }))
+          );
+        } catch (err) {
+          console.error("Error fetching users", err);
+        } finally {
+          setPageLoading(false);
+        }
+      };
+      fetchUsers();
+    }
+  }, [loading, loggedIn, hasAccess]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -128,7 +129,7 @@ export default function UsersPage() {
     { field: "name", headerName: "Name", flex: 1, editable: hasAccess },
     { field: "email", headerName: "Email", flex: 1 },
     { field: "role", headerName: "Role", flex: 1, editable: hasAccess },
-    { field: "phone", headerName: "phone", flex: 1, editable: hasAccess },
+    { field: "phone", headerName: "Phone", flex: 1, editable: hasAccess },
     {
       field: "isActive",
       headerName: "Active",
@@ -176,14 +177,6 @@ export default function UsersPage() {
 
   if (loading || pageLoading) return <p>Loading...</p>;
 
-  if (!hasAccess) {
-    return (
-      <p className="text-red-500 font-semibold text-center mt-10">
-        You do not have access to this page. It's just for admin and project manager with privilege (admin)
-      </p>
-    );
-  }
-
   return (
     <section className="min-h-screen bg-background text-foreground py-10 px-6">
       <div className="flex justify-between items-center mb-6">
@@ -200,7 +193,11 @@ export default function UsersPage() {
       <ThemeProvider
         theme={createTheme({
           palette: {
-            mode: typeof window !== "undefined" && document.documentElement.classList.contains("dark") ? "dark" : "light",
+            mode:
+              typeof window !== "undefined" &&
+              document.documentElement.classList.contains("dark")
+                ? "dark"
+                : "light",
           },
         })}
       >

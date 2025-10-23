@@ -21,10 +21,10 @@ export default function Sidebar() {
       icon: "📝",
       href: "/dashboard/subcategories",
     },
-    { label: "Events", icon: "📅", href: "/dashboard/events" },
-    { label: "Sponsors", icon: "💰", href: "/dashboard/sponsors" },
-    { label: "Team", icon: "👥", href: "/dashboard/team" },
-    { label: "Giveaway", icon: "🎁", href: "/dashboard/giveaway" },
+    { label: "Products", icon: "📅", href: "/dashboard/products" },
+    // { label: "Sponsors", icon: "💰", href: "/dashboard/sponsors" },
+    // { label: "Team", icon: "👥", href: "/dashboard/team" },
+    // { label: "Giveaway", icon: "🎁", href: "/dashboard/giveaway" },
   ];
 
   return (
@@ -76,7 +76,7 @@ export default function Sidebar() {
       <div className="px-4 py-4 border-t border-border">
         {!isCollapsed && (
           <div className="text-sm text-muted-foreground mb-2">
-            © Naga Racing
+            © My Home
           </div>
         )}
         {loggedIn && (

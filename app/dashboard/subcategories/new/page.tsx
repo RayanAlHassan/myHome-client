@@ -77,6 +77,11 @@ export default function AddSubCategoryPage() {
 
       setSuccess("Subcategory created successfully!");
       setFormData({ title: "", categoryId: "", image: null });
+         // redirect after 2 seconds
+         setTimeout(() => {
+          router.push("/dashboard/subcategories");
+        }, 2000);
+    
     } catch (err: any) {
       setError(
         err.response?.data?.message ||

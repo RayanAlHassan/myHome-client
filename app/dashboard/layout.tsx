@@ -35,8 +35,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           return;
         }
 
-        if (pathname.startsWith("/dashboard/users")) {
-          if (updatedUser.role !== "super-admin" && updatedUser.privilege !== "admin") {
+        if (pathname.startsWith("/dashboard/")) {
+          if (updatedUser.role !== "admin" ) {
             router.replace("/dashboard");
             return;
           }

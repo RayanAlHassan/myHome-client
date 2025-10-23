@@ -14,7 +14,7 @@ export function Hero() {
       <div className="container mx-auto px-4 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
-            Transform Your Home Into a Masterpiece
+            Your Home Made Easy
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-8 text-pretty max-w-2xl mx-auto leading-relaxed">
             Discover premium doors, windows, furniture, and interior design
@@ -48,7 +48,7 @@ export function Hero() {
               <Link href="/vendors">Explore Vendors</Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link href="/contact">Get Consultation</Link>
+              <Link href="/contact">For Contactors</Link>
             </Button>
           </div>
         </div>
