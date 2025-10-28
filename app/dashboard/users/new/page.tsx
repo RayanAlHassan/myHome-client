@@ -11,9 +11,17 @@ export default function NewUserPage() {
   // ====== State ======
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("admin");
   const [isActive, setIsActive] = useState(true);
+
+  // Vendor profile fields
+  const [companyName, setCompanyName] = useState("");
+  const [companyPhone, setCompanyPhone] = useState("");
+  const [companyAddress, setCompanyAddress] = useState("");
+  const [workingHours, setWorkingHours] = useState("");
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -30,11 +38,20 @@ export default function NewUserPage() {
     }
 
     try {
-      const res = await axios.post(
-        `${BASE_URL}/user/register`,
-        { name, email, password, role, isActive },
-        { withCredentials: true }
-      );
+      const payload: any = { name, email,phone, password, role, isActive };
+
+      if (role === "vendore") {
+        payload.vendorProfile = {
+          companyName,
+          companyPhone,
+          companyAddress,
+          workingHours,
+        };
+      }
+
+      const res = await axios.post(`${BASE_URL}/user`, payload, {
+        withCredentials: true,
+      });
 
       setSuccess(res.data?.message || "User created successfully.");
       setError(null);
@@ -42,9 +59,14 @@ export default function NewUserPage() {
       // Reset fields
       setName("");
       setEmail("");
+      setPhone("");
       setPassword("");
       setRole("admin");
       setIsActive(true);
+      setCompanyName("");
+      setCompanyPhone("");
+      setCompanyAddress("");
+      setWorkingHours("");
     } catch (err: any) {
       setError(
         err.response?.data?.message || err.message || "Error creating user."
@@ -56,7 +78,7 @@ export default function NewUserPage() {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white dark:bg-black rounded-lg shadow border border-gray-300 dark:border-gray-600">
-      {/* 🔙 Back Button */}
+      {/* Back Button */}
       <button
         type="button"
         onClick={() => router.back()}
@@ -73,7 +95,7 @@ export default function NewUserPage() {
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success && <p className="text-green-500 mb-4">{success}</p>}
 
-      {/* ====== User Form ====== */}
+      {/* Form */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
@@ -83,7 +105,6 @@ export default function NewUserPage() {
           className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-black text-black dark:text-white"
           required
         />
-
         <input
           type="email"
           placeholder="Email"
@@ -92,7 +113,14 @@ export default function NewUserPage() {
           className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-black text-black dark:text-white"
           required
         />
-
+              <input
+          type="phone"
+          placeholder="Phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-black text-black dark:text-white"
+          required
+        />
         <input
           type="password"
           placeholder="Password"
@@ -108,21 +136,11 @@ export default function NewUserPage() {
           className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-black text-black dark:text-white appearance-none"
           required
         >
-          <option value="admin" className="bg-white dark:bg-black text-black dark:text-white">
-             Admin
-          </option>
-          <option value="customer" className="bg-white dark:bg-black text-black dark:text-white">
-            customer
-          </option>
-          <option value="vendore" className="bg-white dark:bg-black text-black dark:text-white">
-          vendore
-          </option>
-          <option value="specialNeedCustomer" className="bg-white dark:bg-black text-black dark:text-white">
-          special Need Customer
-          </option>
+          <option value="admin">Admin</option>
+          <option value="customer">Customer</option>
+          <option value="vendore">Vendor</option>
+          <option value="specialNeedCustomer">Special Need Customer</option>
         </select>
-
-   
 
         <label className="flex items-center gap-2 text-black dark:text-white">
           <input
@@ -134,7 +152,45 @@ export default function NewUserPage() {
           Active
         </label>
 
-        <div className="flex justify-between">
+        {/* Vendor profile inputs */}
+        {role === "vendore" && (
+          <div className="border-t border-gray-300 dark:border-gray-600 pt-4 flex flex-col gap-3">
+            <h2 className="font-semibold text-black dark:text-white">
+              Vendor Profile
+            </h2>
+            <input
+              type="text"
+              placeholder="Company Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-black text-black dark:text-white"
+              required
+            />
+            <input
+              type="text"
+              placeholder="Company Phone"
+              value={companyPhone}
+              onChange={(e) => setCompanyPhone(e.target.value)}
+              className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-black text-black dark:text-white"
+            />
+            <input
+              type="text"
+              placeholder="Company Address"
+              value={companyAddress}
+              onChange={(e) => setCompanyAddress(e.target.value)}
+              className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-black text-black dark:text-white"
+            />
+            <input
+              type="text"
+              placeholder="Working Hours"
+              value={workingHours}
+              onChange={(e) => setWorkingHours(e.target.value)}
+              className="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 bg-white dark:bg-black text-black dark:text-white"
+            />
+          </div>
+        )}
+
+        <div className="flex justify-between mt-4">
           <button
             type="button"
             onClick={() => router.back()}

@@ -175,8 +175,18 @@ export default function UsersPage() {
     },
   ];
 
-  if (loading || pageLoading) return <p>Loading...</p>;
 
+  if (loading) return <p>Checking session...</p>; // wait until auth finishes
+
+  if (!loggedIn || user?.role !== "admin") {
+    return (
+      <p className="text-red-500 font-semibold text-center mt-10">
+        You do not have access to this page. Only admins can access.
+      </p>
+    );
+  }
+  
+  
   return (
     <section className="min-h-screen bg-background text-foreground py-10 px-6">
       <div className="flex justify-between items-center mb-6">

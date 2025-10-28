@@ -15,11 +15,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
 
   // ✅ Redirect if not logged in
-  useEffect(() => {
-    if (!loading && !loggedIn) {
-      router.replace("/auth/signin");
-    }
-  }, [loading, loggedIn, router]);
+  // useEffect(() => {
+  //   if (!loading && !loggedIn) {
+  //     router.replace("/auth/signin");
+  //   }
+  // }, [loading, loggedIn, router]);
 
   // ✅ Polling to refresh user info and check permissions
   useEffect(() => {
@@ -35,12 +35,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           return;
         }
 
-        if (pathname.startsWith("/dashboard/")) {
-          if (updatedUser.role !== "admin" ) {
-            router.replace("/dashboard");
-            return;
-          }
-        }
+     
 
         if (
           updatedUser.role !== user?.role ||

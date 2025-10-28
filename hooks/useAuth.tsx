@@ -10,23 +10,7 @@ import React, {
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-export interface Address {
-  _id?: string;
-  fullName: string;
-  phone: string;
-  country?: string;
-  area?: string;
-  block?: string;
-  street?: string;
-  avenue?: string;
-  houseApartment?: string;
-  floor?: string;
-  landmark?: string;
-  additionalDirections?: string;
-  delivery?: "regular" | "express";
-  expressOption?: "1-hour" | "3-hour";
-  cashAmount?: number;
-}
+
 
 export interface VendorProfile {
   companyName: string;
@@ -44,7 +28,6 @@ export interface User {
   phone?: string;
   role: "admin" | "customer" | "vendore" | "specialNeedCustomer";
   isActive: boolean;
-  address: Address[];
   vendorProfile?: VendorProfile;
 }
 
@@ -88,15 +71,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const backendUser = res.data;
         // Map backend data to frontend User type
         const mappedUser: User = {
-          id: backendUser._id,
+          id: backendUser.id,
           name: backendUser.name,
           email: backendUser.email,
           phone: backendUser.phone,
           role: backendUser.role,
           isActive: backendUser.isActive,
-          address: backendUser.address || [],
           vendorProfile: backendUser.vendorProfile || undefined,
         };
+        console.log("Mapped user:", mappedUser); // <-- log here
+
         setLoggedIn(true);
         setUser(mappedUser);
         return mappedUser;
