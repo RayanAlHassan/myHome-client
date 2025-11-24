@@ -59,15 +59,21 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-background text-foreground">
-        Checking session...
-      </div>
-    );
-  }
+ // Show loader *until useAuth finishes checking session*
+if (loading) {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-background text-foreground">
+      Checking session...
+    </div>
+  );
+}
 
-  if (!loggedIn) return null;
+// After loading finishes → user is NOT logged in → redirect
+if (!loggedIn) {
+  router.replace("/auth/signin");
+  return null;
+}
+
 
   // ✅ Mobile view restriction
   if (isMobile) {
