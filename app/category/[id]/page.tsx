@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { CategoryHeader } from "@/components/category/category-header";
 import ProductGrid from "@/components/category/product-grid";
 import { RequestQuotationForm } from "@/components/category/RequestQuotationForm";
@@ -9,12 +9,16 @@ import { Product, SubCategory, Vendor, CategoryInfo } from "@/types/products";
 
 export default function CategoryPage() {
   const { id: categoryId } = useParams() as { id: string };
+  const searchParams = useSearchParams();
   const [category, setCategory] = useState<CategoryInfo | null>(null);
   const [subcategories, setSubcategories] = useState<SubCategory[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>("all");
   const [selectedVendor, setSelectedVendor] = useState<string>("all");
   const [loading, setLoading] = useState(true);
+
+  // Get subcategory from URL query parameter
+  const subcategoryFromUrl = searchParams.get("subcategory");
 
   // fetch products from backend
   const fetchProducts = async (subCatId = "all", vendorId = "all") => {
@@ -43,13 +47,20 @@ export default function CategoryPage() {
         const categoryJson = await resCategory.json();
         setCategory(categoryJson.category);
         setSubcategories(categoryJson.subCategories || []);
-        await fetchProducts(); // fetch all products initially
+        
+        // Check if there's a subcategory in URL
+        if (subcategoryFromUrl) {
+          setSelectedSubcategory(subcategoryFromUrl);
+          await fetchProducts(subcategoryFromUrl, "all");
+        } else {
+          await fetchProducts(); // fetch all products initially
+        }
       } catch (err) {
         console.error(err);
       }
     };
     fetchData();
-  }, [categoryId]);
+  }, [categoryId, subcategoryFromUrl]);
 
   // Vendors for subcategory
   const vendorsForSub = useMemo(() => {

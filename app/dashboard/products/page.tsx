@@ -29,7 +29,6 @@ interface ProductRow {
   id: string;
   title: string;
   description: string;
-
   price: number;
   dimension?: string;
   category?: string;
@@ -42,7 +41,7 @@ interface ProductRow {
     role: string;
     email?: string;
     vendorProfile?: any;
-  };
+  } | null; // Add null type
 }
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -97,33 +96,64 @@ export default function ProductsPage() {
       setPageLoading(false);
       return;
     }
+ // In your dashboard products page, change the API endpoint:
+const fetchProducts = async () => {
+  try {
+    // Use dashboard endpoint instead of public endpoint
+    const res = await axios.get(`${BASE_URL}/dashboard/products`, {
+      withCredentials: true,
+    });
+    
+    const formatted = res.data.map((p: any) => {
+      const createdBy = p.vendorId || p.userId || {};
+      
+      return {
+        id: p._id,
+        title: p.title,
+        description: p.description,
+        price: p.price,
+        dimension: p.dimension,
+        images: p.images || [],
+        category: p.categoryId?.title || "N/A",
+        subCategory: p.subCategoryId?.title || "N/A",
+        createdAt: p.createdAt,
+        updatedAt: p.updatedAt,
+        user: createdBy,
+      };
+    });
+    setRows(formatted);
+  } catch (err) {
+    console.error("Error fetching dashboard products", err);
+  } finally {
+    setPageLoading(false);
+  }
+};
+    // const fetchProducts = async () => {
+    //   try {
+    //     const res = await axios.get(`${BASE_URL}/products`, {
+    //       withCredentials: true,
+    //     });
+    //     const formatted = res.data.map((p: any) => ({
+    //       id: p._id,
+    //       title: p.title,
+    //       description: p.description,
 
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/products`, {
-          withCredentials: true,
-        });
-        const formatted = res.data.map((p: any) => ({
-          id: p._id,
-          title: p.title,
-          description: p.description,
-
-          price: p.price,
-          dimension: p.dimension,
-          images: p.images || [],
-          category: p.categoryId?.title || "N/A",
-          subCategory: p.subCategoryId?.title || "N/A",
-          createdAt: p.createdAt,
-          updatedAt: p.updatedAt,
-          user: p.userId || p.vendorId,
-        }));
-        setRows(formatted);
-      } catch (err) {
-        console.error("Error fetching products", err);
-      } finally {
-        setPageLoading(false);
-      }
-    };
+    //       price: p.price,
+    //       dimension: p.dimension,
+    //       images: p.images || [],
+    //       category: p.categoryId?.title || "N/A",
+    //       subCategory: p.subCategoryId?.title || "N/A",
+    //       createdAt: p.createdAt,
+    //       updatedAt: p.updatedAt,
+    //       user: p.userId || p.vendorId,
+    //     }));
+    //     setRows(formatted);
+    //   } catch (err) {
+    //     console.error("Error fetching products", err);
+    //   } finally {
+    //     setPageLoading(false);
+    //   }
+    // };
 
     fetchProducts();
   }, [loggedIn, user]);

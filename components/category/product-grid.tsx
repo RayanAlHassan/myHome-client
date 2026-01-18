@@ -55,18 +55,40 @@ export default function ProductGrid({
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Subcategory buttons */}
-      <div className="flex flex-col gap-4 mb-8">
-        <div className="flex flex-wrap gap-3">
-          <Button variant={selectedSubcategory === "all" ? "default" : "outline"} onClick={handleAllProductsClick} size="sm">
-            All Products
-          </Button>
-          {subcategories.map(sub => (
-            <Button key={sub._id} variant={selectedSubcategory === sub._id ? "default" : "outline"} onClick={() => handleSubClick(sub._id)} size="sm">
-              {sub.title}
-            </Button>
-          ))}
-        </div>
+   
+<div className="flex flex-col gap-4 mb-8">
+  <div className="flex flex-wrap gap-3">
+    <Button variant={selectedSubcategory === "all" ? "default" : "outline"} onClick={handleAllProductsClick} size="sm">
+      All Products
+    </Button>
+    {subcategories.map(sub => (
+      <Button 
+        key={sub._id} 
+        variant={selectedSubcategory === sub._id ? "default" : "outline"} 
+        onClick={() => handleSubClick(sub._id)} 
+        size="sm"
+      >
+        {sub.title}
+        {selectedSubcategory === sub._id && (
+          <span className="ml-1 text-xs">✓</span>
+        )}
+      </Button>
+    ))}
+  </div>
 
+  {/* Show selected subcategory info */}
+  {selectedSubcategory !== "all" && (
+    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+      <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-1">
+        Currently viewing: {subcategories.find(s => s._id === selectedSubcategory)?.title}
+      </h3>
+      <p className="text-sm text-blue-600 dark:text-blue-400">
+        Showing products from this specific subcategory
+      </p>
+    </div>
+  )}
+
+ 
         {/* Vendor dropdown */}
         {vendorOptions.length > 0 && (
           <div className="relative w-full md:w-64">
