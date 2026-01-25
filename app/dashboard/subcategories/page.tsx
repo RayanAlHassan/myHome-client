@@ -215,9 +215,25 @@ export default function SubCategoriesPage() {
 
   if (!hasAccess) {
     return (
-      <p className="text-red-500 font-semibold text-center mt-10">
-        You do not have access to this page. Only admins can access.
-      </p>
+      <section className="min-h-screen bg-background text-foreground py-10 px-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-heading font-bold">Users Management</h1>
+      </div>
+      <div className="text-center mt-10 p-6 border border-red-300 rounded-lg bg-red-50 dark:bg-red-900/20">
+        <p className="text-red-500 font-semibold text-xl">
+          Access Denied
+        </p>
+        <p className="text-gray-600 dark:text-gray-400 mt-2">
+          You do not have permission to access this page. Only administrators can manage subCtegories.
+        </p>
+        {/* <button
+          onClick={() => router.push("/dashboard")}
+          className="mt-4 bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90 transition"
+        >
+          Go to Dashboard
+        </button> */}
+      </div>
+    </section>
     );
   }
 
