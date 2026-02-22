@@ -294,6 +294,9 @@
 
 // ================== TYPES ==================
 export type Product = {
+  category: ReactNode;
+  name: string;
+  id: Key | null | undefined;
   _id: string;
   title: string;
   description:string;

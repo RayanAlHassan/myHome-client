@@ -215,7 +215,7 @@ export default function ProductGrid({
                     href={`/product/${product._id}`}
                     className="text-sm text-orange-500 underline hover:text-orange-600"
                   >
-                    View Details
+                    View Detailsssssss
                   </Link>
                 </div>
               </div>
@@ -261,7 +261,7 @@ export default function ProductGrid({
                     href={`/product/${product._id}`}
                     className="text-sm text-orange-500 underline hover:text-orange-600"
                   >
-                    View Details
+                    View Detailss
                   </Link>
                 </div>
               </div>

@@ -55,3 +55,5 @@ export type CategoryInfo = {
   title: string;
   image?: string;
 };
+
+

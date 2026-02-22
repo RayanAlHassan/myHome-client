@@ -36,7 +36,7 @@ export function RelatedProducts({ products }: { products: Product[] }) {
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold">${product.price}</span>
                   <span className="text-sm font-medium text-primary group-hover:underline">
-                    View Details
+                    View Detailssssss
                   </span>
                 </div>
               </div>

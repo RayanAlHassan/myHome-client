@@ -48,7 +48,7 @@ export function FeaturedProducts() {
                 <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">{product.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-xl font-bold">${product.price}</span>
-                  <span className="text-sm font-medium text-primary group-hover:underline">View Details</span>
+                  <span className="text-sm font-medium text-primary group-hover:underline">View Detailsss</span>
                 </div>
               </div>
             </Link>
