@@ -22,6 +22,11 @@ export default function EditProductPage() {
     images: [] as File[],
     existingImages: [] as string[],
     imagesToDelete: [] as string[], // NEW: Track images to delete
+
+    modelGlb: null as File | null,
+    existingModelGlb: "" as string,
+    removeModelGlb: false,
+    
   });
 
   const [categories, setCategories] = useState<{ _id: string; title: string }[]>([]);
@@ -74,7 +79,11 @@ export default function EditProductPage() {
           subCategoryId: p.subCategoryId?._id || p.subCategoryId || "",
           images: [],
           existingImages: p.images || [],
-          imagesToDelete: [], // Initialize empty
+          imagesToDelete: [],
+        
+          existingModelGlb: p.modelGlb || "",
+          modelGlb: null,
+          removeModelGlb: false,
         });
 
         // If there's a category, fetch its subcategories
@@ -105,7 +114,33 @@ export default function EditProductPage() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
+  const handleGlbChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (file && !file.name.toLowerCase().endsWith(".glb")) {
+      setError("Only .glb files are allowed");
+      return;
+    }
+    setFormData((prev) => ({
+      ...prev,
+      modelGlb: file,
+      removeModelGlb: false, // if user uploads new, don't remove
+    }));
+  };
+  
+  const removeExistingGlb = () => {
+    setFormData((prev) => ({
+      ...prev,
+      removeModelGlb: true,
+      modelGlb: null,
+    }));
+  };
+  
+  const undoRemoveGlb = () => {
+    setFormData((prev) => ({
+      ...prev,
+      removeModelGlb: false,
+    }));
+  };
   // ====== Handle image file selection ======
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -168,7 +203,15 @@ export default function EditProductPage() {
       data.append("dimension", formData.dimension);
       data.append("categoryId", formData.categoryId);
       data.append("subCategoryId", formData.subCategoryId);
-      
+      // ✅ remove current model (if user asked)
+if (formData.removeModelGlb) {
+  data.append("removeModelGlb", "true");
+}
+
+// ✅ upload new model (optional)
+if (formData.modelGlb) {
+  data.append("modelGlb", formData.modelGlb); // field name must be modelGlb
+}
       // Append images to delete (comma-separated string)
       if (formData.imagesToDelete.length > 0) {
         data.append("imagesToDelete", formData.imagesToDelete.join(","));
@@ -187,7 +230,6 @@ export default function EditProductPage() {
 
       const res = await axios.put(`${BASE_URL}/products/${productId}`, data, {
         withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
       });
 
       setSuccess("Product updated successfully!");
@@ -486,7 +528,82 @@ export default function EditProductPage() {
             </div>
           </div>
         </div>
+{/* GLB Section */}
+<div className="mt-6">
+  <label className="block mb-2 font-medium text-black dark:text-white">
+    3D Model (GLB) (Optional)
+  </label>
 
+  {/* Current GLB */}
+  {formData.existingModelGlb && !formData.removeModelGlb ? (
+    <div className="p-4 border border-gray-300 dark:border-gray-600 rounded-lg mb-4">
+      <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
+        Current GLB:
+        <span className="ml-2 font-medium">{formData.existingModelGlb}</span>
+      </p>
+
+      {/* Link to file */}
+      <a
+        className="text-blue-600 underline text-sm"
+        href={`${BASE_URL}/uploads/models/${formData.existingModelGlb}`}
+        target="_blank"
+        rel="noreferrer"
+      >
+        View / Download current model
+      </a>
+
+      <div className="mt-3">
+        <button
+          type="button"
+          onClick={removeExistingGlb}
+          className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+        >
+          Remove current GLB
+        </button>
+      </div>
+    </div>
+  ) : null}
+
+  {/* Removed message */}
+  {formData.existingModelGlb && formData.removeModelGlb ? (
+    <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg mb-4">
+      <p className="text-sm text-yellow-700 dark:text-yellow-300">
+        This GLB will be deleted when you click "Update Product".
+      </p>
+      <button
+        type="button"
+        onClick={undoRemoveGlb}
+        className="mt-2 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+      >
+        Undo
+      </button>
+    </div>
+  ) : null}
+
+  {/* Upload new GLB */}
+  <div className="p-4 border border-gray-300 dark:border-gray-600 rounded-lg">
+    <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
+      Upload a new <b>.glb</b> file to replace the current model (field name: <b>modelGlb</b>)
+    </p>
+
+    <input
+      type="file"
+      accept=".glb"
+      onChange={handleGlbChange}
+      className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-black text-black dark:text-white"
+    />
+
+    {formData.modelGlb ? (
+      <p className="text-sm mt-2 text-gray-700 dark:text-gray-300">
+        Selected new GLB: <b>{formData.modelGlb.name}</b>
+      </p>
+    ) : (
+      <p className="text-sm mt-2 text-gray-500 italic">
+        No new GLB selected.
+      </p>
+    )}
+  </div>
+</div>
         {/* Buttons */}
         <div className="flex justify-between pt-4 border-t border-gray-300 dark:border-gray-600">
           <button

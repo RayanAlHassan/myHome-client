@@ -34,8 +34,12 @@ interface ProductRow {
   category?: string;
   subCategory?: string;
   images: string[];
+  modelGlb?: string | null;   // ✅ add this
+
   createdAt: string;
   updatedAt: string;
+  
+
   user?: {
     name: string;
     role: string;
@@ -114,6 +118,8 @@ const fetchProducts = async () => {
         price: p.price,
         dimension: p.dimension,
         images: p.images || [],
+        modelGlb: p.modelGlb || null, // ✅ add this
+
         category: p.categoryId?.title || "N/A",
         subCategory: p.subCategoryId?.title || "N/A",
         createdAt: p.createdAt,
@@ -208,6 +214,19 @@ const fetchProducts = async () => {
         ) : (
           <span>No Images</span>
         ),
+    },
+    {
+      field: "modelGlb",
+      headerName: "3D Model",
+      flex: 0.7,
+      renderCell: (params) => {
+        const hasGlb = !!params.value;
+        return (
+          <span className={hasGlb ? "text-green-600 font-semibold" : "text-gray-500"}>
+            {hasGlb ? "Yes" : "No"}
+          </span>
+        );
+      },
     },
     {
       field: "user",
